@@ -28,14 +28,16 @@ function Toast({toasty, dismissFunction}) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>
+        <VisuallyHidden>{toasty.variant} -</VisuallyHidden>
         {toasty.message}
       </p>
       <button
         className={styles.closeButton}
+        aria-label='Dismiss message'
+        aria-live='off'
         onClick={() => dismissFunction(toasty.id)}
       >
         <X size={24} />
-        <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>
     </div>
   );
