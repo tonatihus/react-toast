@@ -29,6 +29,20 @@ function ToastPlayground() {
     setSelectedVariant('notice');
   },[selectedVariant, message]);
 
+  React.useEffect(() => {
+    const handleKeyDown = (event) => {
+      if(event.code === 'Escape'){
+        setToastList([]);
+        msg.current.focus();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => (window.removeEventListener('keydown', handleKeyDown));
+  }, [setToastList]);
+
+
   return (
     <div className={styles.wrapper}>
       <header>
@@ -54,6 +68,7 @@ function ToastPlayground() {
               className={styles.messageInput}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
+              autoFocus={true}
             />
           </div>
         </div>

@@ -12,7 +12,7 @@ function ToastShelf() {
     <ol className={styles.wrapper}>
       {toastList.map( (toast) => (
         <li key={toast.id} className={styles.toastWrapper}>
-          <Toast variant={toast.variant} msg={toast.message} dismissFunction={() => removeFromShelf(toast.id)}/>
+          <Toast toasty={toast} dismissFunction={removeFromShelf}/>
         </li>
       ))}
     </ol>

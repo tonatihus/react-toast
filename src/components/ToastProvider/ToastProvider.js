@@ -14,8 +14,6 @@ function ToastProvider({children}) {
         message
       }
     );
-    console.log(newToastList)
-
     setToastList(newToastList);
 
   },[toastList]);
