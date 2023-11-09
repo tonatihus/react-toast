@@ -6,34 +6,28 @@ import styles from './ToastPlayground.module.css';
 
 import ToastShelf from '../ToastShelf';
 
+import { ToastListContext } from '../ToastProvider';
+
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [selectedVariant, setSelectedVariant] = React.useState('notice');
 
-  const [toastList, setToastList] = React.useState([]);
+  const {toastList, setToastList, addToShelf, removeFromShelf} = React.useContext(ToastListContext);
 
-  const form = React.useRef();
+  const msg = React.useRef();
 
-  function addToast(form){
-    form.preventDefault();
+  const addToast = React.useCallback((event) => {
+    event.preventDefault();
+    msg.current.focus();
 
     if(message === '') return;
 
-    const newToastList = [...toastList];
-    newToastList.push(
-      {
-        id: crypto.randomUUID(),
-        variant: selectedVariant,
-        msg: message
-      }
-    );
-
-    setToastList(newToastList);
+    addToShelf(selectedVariant, message);
     setMessage('');
     setSelectedVariant('notice');
-  }
+  },[selectedVariant, message]);
 
   return (
     <div className={styles.wrapper}>
@@ -42,9 +36,9 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
       
-      <ToastShelf toasts={toastList} setToastList={setToastList}/>
+      <ToastShelf />
 
-      <form ref={form} className={styles.controlsWrapper} onSubmit={addToast}>
+      <form className={styles.controlsWrapper} onSubmit={addToast}>
         <div className={styles.row}>
           <label
             htmlFor="message"
@@ -55,6 +49,7 @@ function ToastPlayground() {
           </label>
           <div className={styles.inputWrapper}>
             <textarea 
+              ref={msg}
               id="message" 
               className={styles.messageInput}
               value={message}
