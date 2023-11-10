@@ -8,6 +8,8 @@ import ToastShelf from '../ToastShelf';
 
 import { ToastListContext } from '../ToastProvider';
 
+import useEscapeKey from '../../hooks/UseTime';
+
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
@@ -29,19 +31,10 @@ function ToastPlayground() {
     setSelectedVariant('notice');
   },[selectedVariant, message]);
 
-  React.useEffect(() => {
-    const handleKeyDown = (event) => {
-      if(event.code === 'Escape'){
-        setToastList([]);
-        msg.current.focus();
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => (window.removeEventListener('keydown', handleKeyDown));
-  }, [setToastList]);
-
+  useEscapeKey(() => {
+    setToastList([]);
+    msg.current.focus();
+  }, [setToastList]); 
 
   return (
     <div className={styles.wrapper}>
