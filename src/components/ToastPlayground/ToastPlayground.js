@@ -8,15 +8,13 @@ import ToastShelf from '../ToastShelf';
 
 import { ToastListContext } from '../ToastProvider';
 
-import useEscapeKey from '../../hooks/UseTime';
-
 const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState('');
   const [selectedVariant, setSelectedVariant] = React.useState('notice');
 
-  const {toastList, setToastList, addToShelf, removeFromShelf} = React.useContext(ToastListContext);
+  const {toastList, addToShelf, removeFromShelf} = React.useContext(ToastListContext);
 
   const msg = React.useRef();
 
@@ -30,11 +28,6 @@ function ToastPlayground() {
     setMessage('');
     setSelectedVariant('notice');
   },[selectedVariant, message]);
-
-  useEscapeKey(() => {
-    setToastList([]);
-    msg.current.focus();
-  }, [setToastList]); 
 
   return (
     <div className={styles.wrapper}>

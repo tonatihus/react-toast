@@ -1,5 +1,7 @@
 import React from 'react';
 
+import useEscapeKey from '../../hooks/UseEscapeKey';
+
 export const ToastListContext = React.createContext()
 
 function ToastProvider({children}) {
@@ -23,8 +25,12 @@ function ToastProvider({children}) {
     setToastList(newToastList);
   },[toastList]);
 
+  useEscapeKey(() => {
+    setToastList([]);
+  }, [setToastList]); 
+
   return (
-    <ToastListContext.Provider value={{toastList, setToastList, addToShelf, removeFromShelf}}>
+    <ToastListContext.Provider value={{toastList, addToShelf, removeFromShelf}}>
       {children}
     </ToastListContext.Provider>
   );
